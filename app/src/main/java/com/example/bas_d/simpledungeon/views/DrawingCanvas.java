@@ -6,6 +6,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.bas_d.simpledungeon.GameEngine;
+import com.example.bas_d.simpledungeon.MapController;
 import com.example.bas_d.simpledungeon.RenderThread;
 import com.example.bas_d.simpledungeon.input.InputDetector;
 
@@ -18,7 +19,10 @@ public class DrawingCanvas extends SurfaceView implements SurfaceHolder.Callback
         super(context);
         this.gameEngine = gameEngine;
         InputDetector inputDetector = new InputDetector(this);
+        MapController mapController = new MapController();
+
         this.gameEngine.setInputDetector(inputDetector);
+        this.gameEngine.setMapController(mapController);
     }
 
     @Override

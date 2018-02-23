@@ -3,6 +3,7 @@ package com.example.bas_d.simpledungeon;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class RenderThread extends Thread {
@@ -52,7 +53,7 @@ public class RenderThread extends Thread {
             }
             catch (InterruptedException ex)
             {
-                //TODO: Log
+                Log.d("Error gameThread", ex.toString());
             }
         }
     }

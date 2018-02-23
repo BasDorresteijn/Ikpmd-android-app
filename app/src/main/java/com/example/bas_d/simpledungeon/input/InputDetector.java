@@ -2,6 +2,7 @@ package com.example.bas_d.simpledungeon.input;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -26,11 +27,17 @@ public class InputDetector {
             public boolean onTouch(View view, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        checkControls(event.getX(), event.getY());
+                        //MULTITOUCH
+                        for(int i = 0; i < event.getPointerCount(); i++) {
+                            checkControls(event.getX(i), event.getY(i));
+                        }
                         return true;
                     case MotionEvent.ACTION_MOVE:
                         resetControls();
-                        checkControls(event.getX(), event.getY());
+                        //MULTITOUCH
+                        for(int i = 0; i < event.getPointerCount(); i++) {
+                            checkControls(event.getX(i), event.getY(i));
+                        }
                         return false;
                     case MotionEvent.ACTION_UP:
                         resetControls();

@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 import com.example.bas_d.simpledungeon.CreatureManager;
 import com.example.bas_d.simpledungeon.GameEngine;
 import com.example.bas_d.simpledungeon.input.InputDetector;
+import com.example.bas_d.simpledungeon.model.terrain.Map;
 import com.example.bas_d.simpledungeon.services.ImageService;
 
 public class GameActivity extends AppCompatActivity {

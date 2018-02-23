@@ -14,6 +14,7 @@ public class GameEngine {
     private Player player;
     private Paint p;
     private CreatureManager creatureManager;
+    private MapController mapController;
     private int width, height;
 
     public GameEngine(CreatureManager creatureManager) {
@@ -26,6 +27,7 @@ public class GameEngine {
     }
 
     public void draw(Canvas canvas) {
+        mapController.drawMap(canvas);
         for(Creature creature : creatureManager.getCreatures()) {
             canvas.drawBitmap(creature.getResImage(), creature.getPosX(), creature.getPosY(), p);
         }
@@ -66,5 +68,13 @@ public class GameEngine {
 
     public void setInputDetector(InputDetector inputDetector) {
         this.inputDetector = inputDetector;
+    }
+
+    public MapController getMapController() {
+        return mapController;
+    }
+
+    public void setMapController(MapController mapController) {
+        this.mapController = mapController;
     }
 }
