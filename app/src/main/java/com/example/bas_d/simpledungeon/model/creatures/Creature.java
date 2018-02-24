@@ -1,14 +1,12 @@
 package com.example.bas_d.simpledungeon.model.creatures;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 
 import com.example.bas_d.simpledungeon.model.FixedValues;
 import com.example.bas_d.simpledungeon.services.ImageService;
 
 public abstract class Creature {
-
-    private int width = FixedValues.WIDTH;
-    private int height = FixedValues.HEIGHT;
 
     private float speed = FixedValues.SPEED;
 
@@ -36,30 +34,10 @@ public abstract class Creature {
         this.image = resImage;
     }
 
-    public Creature(float posX, float posY, int width, int height, float speed, int health, Bitmap resImage) {
-        this.speed = speed;
-        this.health = health;
+    public Creature(float posX, float posY, Bitmap resImage) {
         this.posX = posX;
         this.posY = posY;
         this.image = resImage;
-        this.width = width;
-        this.height = height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public float getSpeed() {
@@ -100,5 +78,10 @@ public abstract class Creature {
 
     public void setPosY(float posY) {
         this.posY = posY;
+    }
+
+    public Rect getBounds() {
+        return new Rect((int) this.getPosX(), (int) this.getPosY(),
+                (int) this.getPosX() + FixedValues.WIDTH, (int) this.getPosY() + FixedValues.HEIGHT);
     }
 }

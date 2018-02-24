@@ -9,9 +9,10 @@ import com.example.bas_d.simpledungeon.model.FixedValues;
 
 public class ImageService {
 
-    public static Bitmap playerImage, defaultImage;
+    public static Bitmap playerImage, skeletonImage;
     public static Bitmap controlsImage;
     public static Bitmap wall;
+    public static Bitmap defaultImage;
 
     private Resources resources;
 
@@ -20,13 +21,14 @@ public class ImageService {
         loadCreatures();
         loadControls();
         loadTerrains();
+        loadOthers();
     }
 
     private void loadCreatures() {
         playerImage = BitmapFactory.decodeResource(resources, R.drawable.player);
         playerImage = Bitmap.createScaledBitmap(playerImage, FixedValues.WIDTH, FixedValues.HEIGHT, true);
-        defaultImage = BitmapFactory.decodeResource(resources, R.drawable.test);
-        defaultImage = Bitmap.createScaledBitmap(defaultImage, FixedValues.WIDTH, FixedValues.HEIGHT, true);
+        skeletonImage = BitmapFactory.decodeResource(resources, R.drawable.skeleton);
+        skeletonImage = Bitmap.createScaledBitmap(skeletonImage, FixedValues.WIDTH, FixedValues.HEIGHT, true);
     }
 
     private void loadControls() {
@@ -37,6 +39,11 @@ public class ImageService {
     private void loadTerrains() {
         wall = BitmapFactory.decodeResource(resources, R.drawable.wall);
         wall = Bitmap.createScaledBitmap(wall, FixedValues.WIDTH, FixedValues.HEIGHT, true);
+    }
+
+    private void loadOthers() {
+        defaultImage = BitmapFactory.decodeResource(resources, R.drawable.test);
+        defaultImage = Bitmap.createScaledBitmap(defaultImage, FixedValues.WIDTH, FixedValues.HEIGHT, true);
     }
 
 }

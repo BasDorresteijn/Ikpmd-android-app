@@ -1,12 +1,13 @@
 package com.example.bas_d.simpledungeon;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.example.bas_d.simpledungeon.input.InputDetector;
-import com.example.bas_d.simpledungeon.input.Inputs;
 import com.example.bas_d.simpledungeon.model.creatures.Creature;
 import com.example.bas_d.simpledungeon.model.creatures.Player;
+import com.example.bas_d.simpledungeon.model.creatures.Skeleton;
 
 public class GameEngine {
 
@@ -24,6 +25,17 @@ public class GameEngine {
         player = creatureManager.getPlayer();
 
         p = new Paint();
+        p.setColor(Color.RED);
+        p.setTextSize(48);
+
+        test();
+
+    }
+
+    private void test() {
+        creatureManager.addCreature(new Skeleton(500, 700));
+        creatureManager.addCreature(new Skeleton(400, 400));
+        creatureManager.addCreature(new Skeleton(300, 200));
     }
 
     public void draw(Canvas canvas) {
@@ -32,22 +44,13 @@ public class GameEngine {
             canvas.drawBitmap(creature.getResImage(), creature.getPosX(), creature.getPosY(), p);
         }
         inputDetector.draw(canvas);
+        canvas.drawText("HEALTH: " + player.getHealth(), 300, 700, p);
     }
 
     public void update() {
-        if(Inputs.up) {
-            player.setPosY(player.getPosY() + player.getSpeed());
-        }
-        if(Inputs.down) {
-            player.setPosY(player.getPosY() - player.getSpeed());
-        }
-        if(Inputs.left) {
-            player.setPosX(player.getPosX() - player.getSpeed());
-        }
-        if(Inputs.right) {
-            player.setPosX(player.getPosX() + player.getSpeed());
-        }
-//        creatureManager.randomCreature();
+        creatureManager.moveSkeletons();
+        creatureManager.creatureCollision();
+        creatureManager.updatePlayer();
     }
 
     public void setHeight(int height) {
@@ -62,16 +65,8 @@ public class GameEngine {
         this.creatureManager.setMaxWidth(width);
     }
 
-    public InputDetector getInputDetector() {
-        return inputDetector;
-    }
-
     public void setInputDetector(InputDetector inputDetector) {
         this.inputDetector = inputDetector;
-    }
-
-    public MapController getMapController() {
-        return mapController;
     }
 
     public void setMapController(MapController mapController) {
