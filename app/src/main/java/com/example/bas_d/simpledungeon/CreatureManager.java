@@ -4,9 +4,11 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.example.bas_d.simpledungeon.input.Inputs;
+import com.example.bas_d.simpledungeon.model.FixedValues;
 import com.example.bas_d.simpledungeon.model.creatures.Creature;
 import com.example.bas_d.simpledungeon.model.creatures.Player;
 import com.example.bas_d.simpledungeon.model.creatures.Skeleton;
+import com.example.bas_d.simpledungeon.model.terrain.Terrain;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,6 +16,7 @@ import java.util.Random;
 public class CreatureManager {
 
     private ArrayList<Creature> creatures;
+    private MapController mapController;
     private Player player;
     private int maxWidth;
     private int maxHeight;
@@ -66,16 +69,16 @@ public class CreatureManager {
 
     public void updatePlayer() {
         if(Inputs.up) {
-            player.setPosY(player.getPosY() + player.getSpeed());
+            moveUp(player);
         }
         if(Inputs.down) {
-            player.setPosY(player.getPosY() - player.getSpeed());
+            moveDown(player);
         }
         if(Inputs.left) {
-            player.setPosX(player.getPosX() - player.getSpeed());
+            moveLeft(player);
         }
         if(Inputs.right) {
-            player.setPosX(player.getPosX() + player.getSpeed());
+            moveRight(player);
         }
     }
 
@@ -101,19 +104,67 @@ public class CreatureManager {
                 double distance = Math.sqrt((deltaX*deltaX)+(deltaY*deltaY));
                 if(300 > distance && distance > 20) {
                     if(c.getPosX() < player.getPosX()) {
-                        c.setPosX(c.getPosX() + c.getSpeed());
+                        moveRight(c);
                     }
                     if(c.getPosX() > player.getPosX()) {
-                        c.setPosX(c.getPosX() - c.getSpeed());
+                        moveLeft(c);
                     }
                     if(c.getPosY() < player.getPosY()) {
-                        c.setPosY(c.getPosY() + c.getSpeed());
+                        moveDown(c);
                     }
                     if(c.getPosY() > player.getPosY()) {
-                        c.setPosY(c.getPosY() - c.getSpeed());
+                        moveUp(c);
                     }
                 }
             }
+        }
+    }
+
+    public boolean collisionWithTerrain(int x, int y) {
+        return mapController.getTerrain(x / FixedValues.WIDTH, y / FixedValues.HEIGHT).isSolid();
+    }
+
+    public void setMapController(MapController mapController) {
+        this.mapController = mapController;
+    }
+
+    private void moveUp(Creature c) {
+        if(!collisionWithTerrain(c.getBounds().left, c.getBounds().top - (int) c.getSpeed()) &&
+                !collisionWithTerrain(c.getBounds().right, c.getBounds().top - (int) c.getSpeed())) {
+            c.setPosY(c.getPosY() - c.getSpeed());
+        } else {
+            int ty = ((int)Math.floor(c.getBounds().top + c.getSpeed()) / FixedValues.HEIGHT);
+            c.setPosY(ty * FixedValues.HEIGHT - (c.getBounds().top - c.getPosY()));
+        }
+    }
+
+    private void moveDown(Creature c) {
+        if(!collisionWithTerrain(c.getBounds().left, c.getBounds().bottom + (int) c.getSpeed()) &&
+                !collisionWithTerrain(c.getBounds().right, c.getBounds().bottom + (int) c.getSpeed())) {
+            c.setPosY(c.getPosY() + c.getSpeed());
+        } else {
+            int ty = ((int)Math.floor(c.getBounds().bottom + c.getSpeed()) / FixedValues.HEIGHT);
+            c.setPosY(ty * FixedValues.HEIGHT - (c.getBounds().bottom - c.getPosY()) - 1);
+        }
+    }
+
+    private void moveLeft(Creature c) {
+        if(!collisionWithTerrain(c.getBounds().left - (int) c.getSpeed(), c.getBounds().top) &&
+                !collisionWithTerrain(c.getBounds().left - (int) c.getSpeed(), c.getBounds().bottom)) {
+            c.setPosX(c.getPosX() - c.getSpeed());
+        } else {
+            int tx = ((int)Math.floor(c.getBounds().left + c.getSpeed()) / FixedValues.WIDTH);
+            c.setPosX(tx * FixedValues.WIDTH - (c.getBounds().left - c.getPosX()));
+        }
+    }
+
+    private void moveRight(Creature c) {
+        if(!collisionWithTerrain(c.getBounds().right + (int) c.getSpeed(), c.getBounds().top ) &&
+                !collisionWithTerrain(c.getBounds().right + (int) c.getSpeed(), c.getBounds().bottom)) {
+            c.setPosX(c.getPosX() + c.getSpeed());
+        } else {
+            int tx = ((int)Math.floor(c.getBounds().right + c.getSpeed()) / FixedValues.WIDTH);
+            c.setPosX(tx * FixedValues.WIDTH - (c.getBounds().right - c.getPosX()) - 1);
         }
     }
 }

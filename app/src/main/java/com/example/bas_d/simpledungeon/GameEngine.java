@@ -71,5 +71,6 @@ public class GameEngine {
 
     public void setMapController(MapController mapController) {
         this.mapController = mapController;
+        this.creatureManager.setMapController(mapController);
     }
 }

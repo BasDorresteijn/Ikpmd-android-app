@@ -65,10 +65,10 @@ public class InputDetector {
             Inputs.left = true;
         }
         if(x < width && x > width - controlsWidth && y < height - 2*controlsPart && y > height - controlsWidth) {
-            Inputs.down = true;
+            Inputs.up = true;
         }
         if(x < width && x > width - controlsWidth && y < height && y > height - controlsWidth + 2*controlsPart) {
-            Inputs.up = true;
+            Inputs.down = true;
         }
     }
 

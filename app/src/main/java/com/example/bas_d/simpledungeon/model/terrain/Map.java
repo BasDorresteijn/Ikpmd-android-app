@@ -25,6 +25,9 @@ public class Map {
                 case "WA":
                     newRow.add(new Wall());
                     break;
+                case "GR":
+                    newRow.add(new Grass());
+                    break;
             }
 
         }
@@ -34,4 +37,5 @@ public class Map {
     public ArrayList<ArrayList<Terrain>> getMap() {
         return map;
     }
+
 }

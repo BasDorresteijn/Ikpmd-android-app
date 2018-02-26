@@ -18,7 +18,7 @@ public class Player extends Creature{
 
     @Override
     public Rect getBounds() {
-        return new Rect((int) this.getPosX() + FixedValues.WIDTH/4, (int) this.getPosY() + FixedValues.HEIGHT/8,
-                (int) this.getPosX() + FixedValues.WIDTH/4*3, (int) this.getPosY() + FixedValues.HEIGHT/8*7);
+        return new Rect((int) this.getPosX() + FixedValues.WIDTH/4, (int) this.getPosY() + FixedValues.HEIGHT/6,
+                (int) this.getPosX() + FixedValues.WIDTH/4*3, (int) this.getPosY() + FixedValues.HEIGHT/25*24);
     }
 }

@@ -2,9 +2,10 @@ package com.example.bas_d.simpledungeon.model.terrain;
 
 import com.example.bas_d.simpledungeon.services.ImageService;
 
-public class Wall extends Terrain {
+public class Grass extends Terrain {
 
-    public Wall() {
-        super(ImageService.wall, true);
+    public Grass() {
+        super(ImageService.grass, false);
     }
+
 }

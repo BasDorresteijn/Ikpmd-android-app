@@ -11,7 +11,7 @@ public class ImageService {
 
     public static Bitmap playerImage, skeletonImage;
     public static Bitmap controlsImage;
-    public static Bitmap wall;
+    public static Bitmap wall, grass;
     public static Bitmap defaultImage;
 
     private Resources resources;
@@ -39,6 +39,8 @@ public class ImageService {
     private void loadTerrains() {
         wall = BitmapFactory.decodeResource(resources, R.drawable.wall);
         wall = Bitmap.createScaledBitmap(wall, FixedValues.WIDTH, FixedValues.HEIGHT, true);
+        grass = BitmapFactory.decodeResource(resources, R.drawable.grass);
+        grass = Bitmap.createScaledBitmap(grass, FixedValues.WIDTH, FixedValues.HEIGHT, true);
     }
 
     private void loadOthers() {
