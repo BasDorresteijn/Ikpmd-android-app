@@ -12,6 +12,8 @@ public class RenderThread extends Thread {
     private boolean isOnRun;
     private Paint backgroundPaint;
     private final long DELAY = 1000/30;
+    private long start;
+    private long processtime;
     private GameEngine gameEngine;
 
     public RenderThread(SurfaceHolder surfaceHolder, GameEngine gameEngine) {
@@ -28,6 +30,7 @@ public class RenderThread extends Thread {
         //Looping until the boolean is false
         while (isOnRun)
         {
+            start = System.currentTimeMillis();
             //Updates the game objects buisiness logic
             gameEngine.update();
 
@@ -49,7 +52,13 @@ public class RenderThread extends Thread {
             //delay time
             try
             {
-                Thread.sleep(DELAY);
+                processtime = System.currentTimeMillis() - start;
+                if(processtime > 0) {
+                    Thread.sleep(DELAY - processtime);
+                    Log.d("Sleeptime", String.valueOf(DELAY - processtime));
+                } else {
+                    Log.e("Error gameThread", "Processing thread taking to long");
+                }
             }
             catch (InterruptedException ex)
             {
