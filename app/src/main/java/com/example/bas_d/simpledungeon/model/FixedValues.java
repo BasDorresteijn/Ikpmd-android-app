@@ -11,6 +11,8 @@ public class FixedValues {
     //CONTROLS
     public final static int CONTROLSWIDTH = 400;
     public final static int CONTROLSHEIGHT = 400;
+    public final static int ATTACK = 2;
+    public final static long DEFAULTIMMUME = 700;
 
 //    public final static int IMAGE = R.drawable.ic_launcher_background;
 

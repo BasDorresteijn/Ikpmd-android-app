@@ -5,15 +5,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.example.bas_d.simpledungeon.input.InputDetector;
+import com.example.bas_d.simpledungeon.model.FixedValues;
 import com.example.bas_d.simpledungeon.model.creatures.Creature;
 import com.example.bas_d.simpledungeon.model.creatures.Player;
 import com.example.bas_d.simpledungeon.model.creatures.Skeleton;
+import com.example.bas_d.simpledungeon.model.entities.Entity;
 
 public class GameEngine {
 
     private InputDetector inputDetector;
     private Player player;
-    private Paint p;
+    private Paint pr, pb;
     private CreatureManager creatureManager;
     private MapController mapController;
     private int width, height;
@@ -24,9 +26,13 @@ public class GameEngine {
         creatureManager.setPlayer(new Player(10, 10));
         player = creatureManager.getPlayer();
 
-        p = new Paint();
-        p.setColor(Color.RED);
-        p.setTextSize(48);
+        pr = new Paint();
+        pr.setColor(Color.RED);
+        pr.setTextSize(48);
+
+        pb = new Paint();
+        pb.setColor(Color.BLUE);
+        pb.setTextSize(48);
 
         test();
 
@@ -40,17 +46,23 @@ public class GameEngine {
 
     public void draw(Canvas canvas) {
         mapController.drawMap(canvas);
-        for(Creature creature : creatureManager.getCreatures()) {
-            canvas.drawBitmap(creature.getResImage(), creature.getPosX(), creature.getPosY(), p);
-        }
+        creatureManager.draw(canvas);
         inputDetector.draw(canvas);
-        canvas.drawText("HEALTH: " + player.getHealth(), 300, 700, p);
+        canvas.drawText("HEALTH: " + player.getHealth(), 300, 650, pr);
+        long now = System.currentTimeMillis();
+        long cooldown = (player.getSword().getLastUsed() + player.getSword().getCooldown() + player.getSword().getUseTime()) - now;
+        if(cooldown < 0) {
+            cooldown = 0;
+        }
+        canvas.drawText("COOLDOWN: " + cooldown, 300, 700, pb);
+
     }
 
     public void update() {
         creatureManager.moveSkeletons();
         creatureManager.creatureCollision();
         creatureManager.updatePlayer();
+        creatureManager.doAttack();
     }
 
     public void setHeight(int height) {

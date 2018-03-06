@@ -15,6 +15,10 @@ public abstract class Creature {
     private Bitmap image;
     private float posX;
     private float posY;
+    private int attack = FixedValues.ATTACK;
+
+    protected long immumeSince = 0;
+    protected long immumeTime = FixedValues.DEFAULTIMMUME;
 
     public Creature() {
 
@@ -83,5 +87,29 @@ public abstract class Creature {
     public Rect getBounds() {
         return new Rect((int) this.getPosX(), (int) this.getPosY(),
                 (int) this.getPosX() + FixedValues.WIDTH, (int) this.getPosY() + FixedValues.HEIGHT);
+    }
+
+    public long getImmumeSince() {
+        return immumeSince;
+    }
+
+    public void setImmumeSince(long immumeSince) {
+        this.immumeSince = immumeSince;
+    }
+
+    public long getImmumeTime() {
+        return immumeTime;
+    }
+
+    public void setImmumeTime(long immumeTime) {
+        this.immumeTime = immumeTime;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
     }
 }

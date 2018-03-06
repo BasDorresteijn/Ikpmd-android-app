@@ -55,7 +55,6 @@ public class RenderThread extends Thread {
                 processtime = System.currentTimeMillis() - start;
                 if(processtime > 0) {
                     Thread.sleep(DELAY - processtime);
-                    Log.d("Sleeptime", String.valueOf(DELAY - processtime));
                 } else {
                     Log.e("Error gameThread", "Processing thread taking to long");
                 }
