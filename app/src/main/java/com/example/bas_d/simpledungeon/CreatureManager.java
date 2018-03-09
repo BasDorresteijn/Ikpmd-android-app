@@ -1,6 +1,7 @@
 package com.example.bas_d.simpledungeon;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.bas_d.simpledungeon.input.Inputs;
 import com.example.bas_d.simpledungeon.input.Pressed;

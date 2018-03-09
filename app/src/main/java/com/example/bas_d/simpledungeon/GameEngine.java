@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.example.bas_d.simpledungeon.database.DatabaseHelper;
 import com.example.bas_d.simpledungeon.input.InputDetector;
 import com.example.bas_d.simpledungeon.model.creatures.Player;
 import com.example.bas_d.simpledungeon.model.creatures.Skeleton;
@@ -19,14 +20,16 @@ public class GameEngine {
     private GameCamera gameCamera;
     private int width, height;
     private RenderThread renderThread;
+    private DatabaseHelper databaseHelper;
 
-    public GameEngine(CreatureManager creatureManager) {
+    public GameEngine(CreatureManager creatureManager, DatabaseHelper databaseHelper) {
         this.gameCamera = new GameCamera(this);
         this.creatureManager = creatureManager;
         this.creatureManager.setGameCamera(gameCamera);
         this.creatureManager.setGameEngine(this);
+        this.databaseHelper = databaseHelper;
 
-        creatureManager.setPlayer(new Player(10, 10));
+        creatureManager.setPlayer(new Player(150, 150));
         player = creatureManager.getPlayer();
 
         pr = new Paint();
@@ -37,7 +40,7 @@ public class GameEngine {
         pb.setColor(Color.BLUE);
         pb.setTextSize(48);
 
-        test();
+        //test();
 
     }
 
@@ -105,14 +108,22 @@ public class GameEngine {
     }
 
     public void stop() {
-        renderThread.pause();
+        if(renderThread != null) {
+            renderThread.pause();
+        }
     }
 
     public void start() {
-        renderThread.unpause();
+        if(renderThread != null) {
+            renderThread.unpause();
+        }
     }
 
     public void setRenderThread(RenderThread renderThread) {
         this.renderThread = renderThread;
+    }
+
+    public DatabaseHelper getDatabaseHelper() {
+        return databaseHelper;
     }
 }

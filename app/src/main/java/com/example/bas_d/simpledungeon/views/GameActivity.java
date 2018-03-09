@@ -6,6 +6,7 @@ import android.view.SurfaceHolder;
 
 import com.example.bas_d.simpledungeon.CreatureManager;
 import com.example.bas_d.simpledungeon.GameEngine;
+import com.example.bas_d.simpledungeon.database.DatabaseHelper;
 import com.example.bas_d.simpledungeon.input.InputDetector;
 import com.example.bas_d.simpledungeon.model.terrain.Map;
 import com.example.bas_d.simpledungeon.services.ImageService;
@@ -14,13 +15,43 @@ public class GameActivity extends AppCompatActivity {
 
     private DrawingCanvas drawingCanvas;
     private SurfaceHolder surfaceHolder;
-
+    private DatabaseHelper databaseHelper;
+    private GameEngine gameEngine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startUp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameEngine.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameEngine.stop();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameEngine.stop();
+        //SAVING DATA
+    }
+
+    private void startUp() {
         new ImageService(getResources());
-        GameEngine gameEngine = new GameEngine(new CreatureManager());
+        this.databaseHelper = DatabaseHelper.getHelper(this);
+        gameEngine = new GameEngine(new CreatureManager(), databaseHelper);
         setupCanvas(gameEngine);
     }
 
@@ -30,4 +61,5 @@ public class GameActivity extends AppCompatActivity {
         surfaceHolder = drawingCanvas.getHolder();
         surfaceHolder.addCallback(drawingCanvas);
     }
+
 }

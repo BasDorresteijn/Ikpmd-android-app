@@ -2,6 +2,7 @@ package com.example.bas_d.simpledungeon.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -24,6 +25,7 @@ public class DrawingCanvas extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        Log.d("SimpleDungeon", "creating surface");
         Canvas c = surfaceHolder.lockCanvas();
         gameEngine.setWidth(c.getWidth());
         gameEngine.setHeight(c.getHeight());
@@ -33,7 +35,7 @@ public class DrawingCanvas extends SurfaceView implements SurfaceHolder.Callback
             render.start();
         }
         else {
-            render.start();
+            render.run();
         }
     }
 

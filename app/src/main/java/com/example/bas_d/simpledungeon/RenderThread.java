@@ -57,12 +57,12 @@ public class RenderThread extends Thread {
                 if(DELAY - processtime > 0) {
                     Thread.sleep(DELAY - processtime);
                 } else {
-                    Log.e("Error gameThread", "Processing thread taking to long");
+                    Log.e("SimpleDungeon error gameThread", "Processing thread taking to long. Time: " + String.valueOf(DELAY - processtime));
                 }
             }
             catch (InterruptedException ex)
             {
-                Log.d("Error gameThread", ex.toString());
+                Log.d("SimpleDungeon error gameThread", ex.toString());
             }
         }
     }
