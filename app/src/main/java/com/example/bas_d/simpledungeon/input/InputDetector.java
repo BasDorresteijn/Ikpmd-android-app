@@ -1,23 +1,30 @@
 package com.example.bas_d.simpledungeon.input;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.bas_d.simpledungeon.GameEngine;
+import com.example.bas_d.simpledungeon.model.FixedValues;
 import com.example.bas_d.simpledungeon.services.ImageService;
 import com.example.bas_d.simpledungeon.views.DrawingCanvas;
 
 public class InputDetector {
 
     private DrawingCanvas canvas;
+    private GameEngine gameEngine;
     private int width, height;
     private Paint p;
 
-    public InputDetector(DrawingCanvas canvas) {
+    public InputDetector(GameEngine gameEngine, DrawingCanvas canvas) {
+        this.gameEngine = gameEngine;
         this.canvas = canvas;
+        this.gameEngine.setInputDetector(this);
         p = new Paint();
+        p.setColor(Color.BLACK);
         setupListeners();
     }
 
@@ -69,30 +76,33 @@ public class InputDetector {
         int controlsWidth = ImageService.controlsImage.getWidth();
         int controlsheight = ImageService.controlsImage.getHeight();
         int controlsPart = controlsWidth/3;
-        if(x > width - controlsWidth && y > height - controlsWidth) {
-            if(x < width && x > width - controlsWidth + 2*controlsPart && y < height && y > height - controlsheight) {
+        //DPAD
+        if(x < controlsWidth && y > height - controlsWidth) {
+            if(x < controlsWidth && x > controlsWidth - controlsPart && y < height && y > height - controlsheight) {
                 Inputs.right = true;
             }
-            if(x < width - 2*controlsPart && x > width - controlsWidth && y < height && y > height - controlsheight) {
+            if(x < controlsWidth - 2*controlsPart && x > 0 && y < height && y > height - controlsheight) {
                 Inputs.left = true;
             }
-            if(x < width && x > width - controlsWidth && y < height - 2*controlsPart && y > height - controlsheight) {
+            if(x > 0 && x < controlsWidth && y < height - 2*controlsPart && y > height - controlsheight) {
                 Inputs.up = true;
             }
-            if(x < width && x > width - controlsWidth && y < height && y > height - controlsheight + 2*controlsPart) {
+            if(x > 0 && x < controlsWidth && y < height && y > height - controlsheight + 2*controlsPart) {
                 Inputs.down = true;
             }
         }
-        if(x < controlsPart && y > height - height/4 && y < height - height/4 + controlsPart) {
+        //A button
+        if(x > width - controlsPart && x < width && y > height - height/4 && y < height - height/4 + controlsPart) {
             Inputs.a = true;
         }
 
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(ImageService.controlsImage, this.width - ImageService.controlsImage.getWidth(),
+        canvas.drawRect(0, this.height - ImageService.controlsImage.getHeight() - 16, width, height, p);
+        canvas.drawBitmap(ImageService.controlsImage, 0,
                 this.height - ImageService.controlsImage.getHeight(), p);
-        canvas.drawBitmap(ImageService.aImage, 0, this.height - this.height/4, p);
+        canvas.drawBitmap(ImageService.aImage, width - FixedValues.CONTROLSWIDTH/3, this.height - this.height/4, p);
     }
 
 

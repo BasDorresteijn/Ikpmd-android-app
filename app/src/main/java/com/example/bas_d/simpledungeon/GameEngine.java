@@ -5,11 +5,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.example.bas_d.simpledungeon.input.InputDetector;
-import com.example.bas_d.simpledungeon.model.FixedValues;
-import com.example.bas_d.simpledungeon.model.creatures.Creature;
 import com.example.bas_d.simpledungeon.model.creatures.Player;
 import com.example.bas_d.simpledungeon.model.creatures.Skeleton;
-import com.example.bas_d.simpledungeon.model.entities.Entity;
+import com.example.bas_d.simpledungeon.views.GameCamera;
 
 public class GameEngine {
 
@@ -18,10 +16,15 @@ public class GameEngine {
     private Paint pr, pb;
     private CreatureManager creatureManager;
     private MapController mapController;
+    private GameCamera gameCamera;
     private int width, height;
+    private RenderThread renderThread;
 
     public GameEngine(CreatureManager creatureManager) {
+        this.gameCamera = new GameCamera(this);
         this.creatureManager = creatureManager;
+        this.creatureManager.setGameCamera(gameCamera);
+        this.creatureManager.setGameEngine(this);
 
         creatureManager.setPlayer(new Player(10, 10));
         player = creatureManager.getPlayer();
@@ -63,18 +66,17 @@ public class GameEngine {
         creatureManager.creatureCollision();
         creatureManager.updatePlayer();
         creatureManager.doAttack();
+        creatureManager.checkTile();
     }
 
     public void setHeight(int height) {
         this.height = height;
         this.inputDetector.setHeight(height);
-        this.creatureManager.setMaxHeight(height);
     }
 
     public void setWidth(int width) {
         this.width = width;
         this.inputDetector.setWidth(width);
-        this.creatureManager.setMaxWidth(width);
     }
 
     public void setInputDetector(InputDetector inputDetector) {
@@ -84,5 +86,33 @@ public class GameEngine {
     public void setMapController(MapController mapController) {
         this.mapController = mapController;
         this.creatureManager.setMapController(mapController);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public GameCamera getGameCamera() {
+        return gameCamera;
+    }
+
+    public CreatureManager getCreatureManager() {
+        return creatureManager;
+    }
+
+    public void stop() {
+        renderThread.pause();
+    }
+
+    public void start() {
+        renderThread.unpause();
+    }
+
+    public void setRenderThread(RenderThread renderThread) {
+        this.renderThread = renderThread;
     }
 }

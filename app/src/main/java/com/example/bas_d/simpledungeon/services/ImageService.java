@@ -13,7 +13,7 @@ public class ImageService {
     public static Bitmap playerImage, skeletonImage, playerAttackingR;
     public static Bitmap controlsImage, aImage;
     public static Bitmap basicSwordR, basicSwordL, basicSwordU, basicSwordD;
-    public static Bitmap wall, grass;
+    public static Bitmap wall, grass, stairs;
     public static Bitmap defaultImage;
 
     private Resources resources;
@@ -58,6 +58,8 @@ public class ImageService {
         wall = Bitmap.createScaledBitmap(wall, FixedValues.WIDTH, FixedValues.HEIGHT, true);
         grass = BitmapFactory.decodeResource(resources, R.drawable.grass);
         grass = Bitmap.createScaledBitmap(grass, FixedValues.WIDTH, FixedValues.HEIGHT, true);
+        stairs = BitmapFactory.decodeResource(resources, R.drawable.stairs);
+        stairs = Bitmap.createScaledBitmap(stairs, FixedValues.WIDTH, FixedValues.HEIGHT, true);
     }
 
     private void loadOthers() {

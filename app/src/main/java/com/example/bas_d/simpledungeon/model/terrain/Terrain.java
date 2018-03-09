@@ -3,9 +3,10 @@ package com.example.bas_d.simpledungeon.model.terrain;
 import android.graphics.Bitmap;
 
 import com.example.bas_d.simpledungeon.model.FixedValues;
+import com.example.bas_d.simpledungeon.model.creatures.Creature;
 import com.example.bas_d.simpledungeon.services.ImageService;
 
-public abstract class Terrain {
+public class Terrain {
 
     private Bitmap terrainImage;
     protected boolean solid;
@@ -29,5 +30,9 @@ public abstract class Terrain {
 
     public boolean isSolid() {
         return solid;
+    }
+
+    public void doTerrainEffect(Creature c) {
+
     }
 }

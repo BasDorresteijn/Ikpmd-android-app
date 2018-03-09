@@ -28,6 +28,9 @@ public class Map {
                 case "GR":
                     newRow.add(new Grass());
                     break;
+                case "ST":
+                    newRow.add(new Stairs());
+                    break;
             }
 
         }

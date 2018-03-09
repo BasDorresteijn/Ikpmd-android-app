@@ -14,17 +14,13 @@ public class GameActivity extends AppCompatActivity {
 
     private DrawingCanvas drawingCanvas;
     private SurfaceHolder surfaceHolder;
-    private GameEngine gameEngine;
-    private ImageService imageService;
-    private CreatureManager creatureManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        imageService = new ImageService(getResources());
-        creatureManager = new CreatureManager();
-        gameEngine = new GameEngine(creatureManager);
+        new ImageService(getResources());
+        GameEngine gameEngine = new GameEngine(new CreatureManager());
         setupCanvas(gameEngine);
     }
 

@@ -18,11 +18,8 @@ public class DrawingCanvas extends SurfaceView implements SurfaceHolder.Callback
     public DrawingCanvas(Context context, GameEngine gameEngine) {
         super(context);
         this.gameEngine = gameEngine;
-        InputDetector inputDetector = new InputDetector(this);
-        MapController mapController = new MapController();
-
-        this.gameEngine.setInputDetector(inputDetector);
-        this.gameEngine.setMapController(mapController);
+        new InputDetector(gameEngine, this);
+        new MapController(gameEngine);
     }
 
     @Override

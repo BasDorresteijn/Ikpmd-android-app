@@ -22,6 +22,7 @@ public class RenderThread extends Thread {
         isOnRun = true;
         backgroundPaint = new Paint();
         backgroundPaint.setColor(Color.WHITE);
+        this.gameEngine.setRenderThread(this);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class RenderThread extends Thread {
             try
             {
                 processtime = System.currentTimeMillis() - start;
-                if(processtime > 0) {
+                if(DELAY - processtime > 0) {
                     Thread.sleep(DELAY - processtime);
                 } else {
                     Log.e("Error gameThread", "Processing thread taking to long");
@@ -66,11 +67,14 @@ public class RenderThread extends Thread {
         }
     }
 
-    public boolean isOnRun() {
-        return isOnRun;
+    public void pause() {
+        isOnRun = false;
     }
 
-    public void setOnRun(boolean onRun) {
-        isOnRun = onRun;
+    public void unpause() {
+        if(!isOnRun) {
+            isOnRun = true;
+            this.run();
+        }
     }
 }

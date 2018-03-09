@@ -9,7 +9,10 @@ import com.example.bas_d.simpledungeon.model.creatures.Creature;
 import com.example.bas_d.simpledungeon.model.creatures.Player;
 import com.example.bas_d.simpledungeon.model.creatures.Skeleton;
 import com.example.bas_d.simpledungeon.model.entities.Entity;
+import com.example.bas_d.simpledungeon.model.terrain.Stairs;
+import com.example.bas_d.simpledungeon.model.terrain.Terrain;
 import com.example.bas_d.simpledungeon.services.ImageService;
+import com.example.bas_d.simpledungeon.views.GameCamera;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,11 +23,9 @@ public class CreatureManager {
     private ArrayList<Entity> entities;
     private MapController mapController;
     private Player player;
-    private int maxWidth;
-    private int maxHeight;
-    private long immumeTime = 0;
-    private long immume = 600;
     private Pressed lastpressed = Pressed.Left;
+    private GameCamera gameCamera;
+    private GameEngine gameEngine;
 
     public CreatureManager() {
         this.creatures = new ArrayList<>();
@@ -55,21 +56,6 @@ public class CreatureManager {
         return creatures;
     }
 
-    public void randomCreature() {
-        Random random = new Random();
-        if(random.nextInt(100) >= 99) {
-            creatures.add(new Player(random.nextInt(maxWidth), random.nextInt(maxHeight)));
-        }
-    }
-
-    public void setMaxHeight(int maxHeight) {
-        this.maxHeight = maxHeight;
-    }
-
-    public void setMaxWidth(int maxWidth) {
-        this.maxWidth = maxWidth;
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -96,6 +82,7 @@ public class CreatureManager {
             lastpressed = Pressed.Right;
             moveRight(player);
         }
+        gameCamera.centerOnEntity(player);
     }
 
     public void creatureCollision() {
@@ -133,7 +120,7 @@ public class CreatureManager {
     }
 
     public boolean collisionWithTerrain(int x, int y) {
-        return mapController.getTerrain(x / FixedValues.WIDTH, y / FixedValues.HEIGHT).isSolid();
+        return mapController.getTerrain(x, y).isSolid();
     }
 
     public void setMapController(MapController mapController) {
@@ -182,7 +169,7 @@ public class CreatureManager {
 
     public void draw(Canvas canvas) {
         for(Creature creature : this.getCreatures()) {
-            canvas.drawBitmap(creature.getResImage(), creature.getPosX(), creature.getPosY(), null);
+            canvas.drawBitmap(creature.getResImage(), creature.getPosX() - gameCamera.getxOffSet(), creature.getPosY() - gameCamera.getyOffSet(), null);
         }
         drawPlayersSword(canvas);
     }
@@ -192,19 +179,19 @@ public class CreatureManager {
         if (now < player.getSword().getLastUsed() + player.getSword().getUseTime()) {
             if (lastpressed == Pressed.Right) {
                 player.getSword().setResImage(ImageService.basicSwordR);
-                canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() + FixedValues.WIDTH, player.getPosY(), null);
+                canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() + FixedValues.WIDTH - gameCamera.getxOffSet(), player.getPosY() - gameCamera.getyOffSet(), null);
             }
             if (lastpressed == Pressed.Left) {
                 player.getSword().setResImage(ImageService.basicSwordL);
-                canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() - FixedValues.WIDTH, player.getPosY(), null);
+                canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() - FixedValues.WIDTH - gameCamera.getxOffSet(), player.getPosY()  - gameCamera.getyOffSet(), null);
             }
             if (lastpressed == Pressed.Up) {
                 player.getSword().setResImage(ImageService.basicSwordU);
-                canvas.drawBitmap(player.getSword().getResImage(), player.getPosX(), player.getPosY() - FixedValues.HEIGHT, null);
+                canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() - gameCamera.getxOffSet(), player.getPosY() - FixedValues.HEIGHT  - gameCamera.getyOffSet(), null);
             }
             if (lastpressed == Pressed.Down) {
                 player.getSword().setResImage(ImageService.basicSwordD);
-                canvas.drawBitmap(player.getSword().getResImage(), player.getPosX(), player.getPosY() + FixedValues.HEIGHT, null);
+                canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() - gameCamera.getxOffSet(), player.getPosY() + FixedValues.HEIGHT  - gameCamera.getyOffSet(), null);
             }
         }
     }
@@ -281,5 +268,49 @@ public class CreatureManager {
             defending.setHealth(defending.getHealth() - attacking.getSword().getAttack());
             defending.setImmumeSince(now);
         }
+    }
+
+    public void checkTile() {
+
+        for (Creature c : creatures){
+            ArrayList<Terrain> allTerrains = new ArrayList<>();
+            ArrayList<Terrain> terrains = new ArrayList<>();
+            boolean add;
+            allTerrains.add(mapController.getTerrain(c.getBounds().left, c.getBounds().top));
+            allTerrains.add(mapController.getTerrain(c.getBounds().right, c.getBounds().top));
+            allTerrains.add(mapController.getTerrain(c.getBounds().left, c.getBounds().bottom));
+            allTerrains.add(mapController.getTerrain(c.getBounds().right, c.getBounds().bottom));
+            for(Terrain t1 : allTerrains) {
+                add = true;
+                for(Terrain t2 : terrains) {
+                    if(t1.getClass().equals(t2.getClass())) {
+                        add = false;
+                    }
+                }
+                if(add) {
+                    terrains.add(t1);
+                }
+            }
+            doTerrainEffects(c, terrains);
+        }
+    }
+
+    private void doTerrainEffects(Creature c, ArrayList<Terrain> terrains) {
+        for(Terrain t : terrains) {
+            t.doTerrainEffect(c);
+            if(t.getClass().equals(Stairs.class)) {
+                gameEngine.stop();
+                mapController.loadNewMap();
+                gameEngine.start();
+            }
+        }
+    }
+
+    public void setGameCamera(GameCamera gameCamera) {
+        this.gameCamera = gameCamera;
+    }
+
+    public void setGameEngine(GameEngine gameEngine) {
+        this.gameEngine = gameEngine;
     }
 }
