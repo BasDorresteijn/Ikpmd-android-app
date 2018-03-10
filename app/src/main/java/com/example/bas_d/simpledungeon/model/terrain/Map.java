@@ -3,11 +3,15 @@ package com.example.bas_d.simpledungeon.model.terrain;
 import android.util.Log;
 import android.widget.Switch;
 
+import com.example.bas_d.simpledungeon.model.FixedValues;
+
 import java.util.ArrayList;
 
 public class Map {
 
     private ArrayList<ArrayList<Terrain>> map;
+    private int maxX;
+    private int maxY;
 
     public Map(String map) {
         this.map = new ArrayList<>();
@@ -15,6 +19,8 @@ public class Map {
         for(String row : newMap) {
             addRow(row);
         }
+        maxX = maxX * FixedValues.WIDTH;
+        maxY = newMap.length * FixedValues.HEIGHT;
     }
 
     private void addRow(String row) {
@@ -34,6 +40,9 @@ public class Map {
             }
 
         }
+        if(maxX < newRow.size()) {
+            maxX = newRow.size();
+        }
         map.add(newRow);
     }
 
@@ -41,4 +50,11 @@ public class Map {
         return map;
     }
 
+    public int getMaxX() {
+        return maxX;
+    }
+
+    public int getMaxY() {
+        return maxY;
+    }
 }

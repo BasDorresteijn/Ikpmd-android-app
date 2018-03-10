@@ -35,6 +35,8 @@ public class MapController {
         mapID = 1;
         checkMaps();
         loadNewMap();
+        this.gameCamera.setMaxX(map.getMaxX());
+        this.gameCamera.setMaxY(map.getMaxY());
     }
 
     private void checkMaps() {
