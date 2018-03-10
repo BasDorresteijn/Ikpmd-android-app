@@ -8,6 +8,10 @@ import com.example.bas_d.simpledungeon.services.ImageService;
 
 public class Skeleton extends Creature {
 
+    public Skeleton() {
+        super(0,0, ImageService.skeletonImage);
+    }
+
     public Skeleton(float posX, float posY) {
         super(posX, posY, ImageService.skeletonImage);
     }

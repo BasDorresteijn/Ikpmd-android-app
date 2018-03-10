@@ -9,13 +9,14 @@ import com.example.bas_d.simpledungeon.database.DatabaseHelper;
 import com.example.bas_d.simpledungeon.database.DatabaseInfo;
 import com.example.bas_d.simpledungeon.model.FixedValues;
 import com.example.bas_d.simpledungeon.model.creatures.Creature;
+import com.example.bas_d.simpledungeon.model.creatures.Skeleton;
 import com.example.bas_d.simpledungeon.model.terrain.Grass;
 import com.example.bas_d.simpledungeon.model.terrain.Map;
 import com.example.bas_d.simpledungeon.model.terrain.Terrain;
-import com.example.bas_d.simpledungeon.model.terrain.Wall;
 import com.example.bas_d.simpledungeon.views.GameCamera;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapController {
 
@@ -40,7 +41,9 @@ public class MapController {
         Cursor rs = databaseHelper.query(DatabaseInfo.SimpleDungeonTables.MAP, new String[]{DatabaseInfo.MapColumn.TERRAINS}, null,null, null, null, null);
         if(!rs.moveToFirst()) {
             insertMaps();
+            insertCreatures();
         }
+        rs.close();
     }
 
     private String getMap() {
@@ -54,27 +57,44 @@ public class MapController {
         }
     }
 
-    private void insertMaps() {
-        insertMap("WA WA WA WA WA WA WA WA WA WA WA WA WA WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl " +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR ST GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
-                "WA WA WA WA WA WA WA WA WA WA WA WA WA WA nl");
+    private ArrayList<Creature> getCreatures() {
+        ArrayList<Creature> creatures = new ArrayList<>();
+        Cursor rs = databaseHelper.query(DatabaseInfo.SimpleDungeonTables.CREATURES, new String[]{},
+                DatabaseInfo.CreaturesColumn.MAPID +"=?", new String[]{String.valueOf(mapID)}, null, null, null);
+        while(rs.moveToNext()) {
+            Creature c = (Creature) getCreature("com.example.bas_d.simpledungeon.model.creatures." + rs.getString(rs.getColumnIndex(DatabaseInfo.CreaturesColumn.NAME)));
+            if (c != null) {
+                c.setPosX(rs.getInt(rs.getColumnIndex(DatabaseInfo.CreaturesColumn.POSX)));
+                c.setPosY(rs.getInt(rs.getColumnIndex(DatabaseInfo.CreaturesColumn.POSY)));
+                creatures.add(c);
+            }
+        }
+        return creatures;
+    }
+    
+    private Object getCreature(String classname) {
+        try {
+            Class c = Class.forName(classname);
+            return c.newInstance();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void insertMap(String mapString) {
         ContentValues map = new ContentValues();
         map.put(DatabaseInfo.MapColumn.TERRAINS, mapString);
         databaseHelper.insert(DatabaseInfo.SimpleDungeonTables.MAP, null, map);
+    }
+
+    private void insertCreature(String creatureName, int id, int posX, int posY) {
+        ContentValues creature = new ContentValues();
+        creature.put(DatabaseInfo.CreaturesColumn.MAPID, id);
+        creature.put(DatabaseInfo.CreaturesColumn.NAME, creatureName);
+        creature.put(DatabaseInfo.CreaturesColumn.POSX, posX);
+        creature.put(DatabaseInfo.CreaturesColumn.POSY, posY);
+        databaseHelper.insert(DatabaseInfo.SimpleDungeonTables.CREATURES, null, creature);
     }
 
     public void drawMap(Canvas canvas) {
@@ -101,6 +121,31 @@ public class MapController {
 
     public void loadNewMap() {
         map = new Map(getMap());
+        creatureManager.setCreatures(getCreatures());
         mapID += 1;
     }
+
+    private void insertMaps() {
+        insertMap("WA WA WA WA WA WA WA WA WA WA WA WA WA WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl " +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR ST GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA WA WA WA WA WA WA WA WA WA WA WA WA WA nl");
+    }
+
+    private void insertCreatures() {
+        insertCreature("Skeleton", 1, 500, 600);
+        insertCreature("Skeleton", 1, 700, 900);
+        insertCreature("Skeleton", 1, 300, 1000);
+    }
+
 }

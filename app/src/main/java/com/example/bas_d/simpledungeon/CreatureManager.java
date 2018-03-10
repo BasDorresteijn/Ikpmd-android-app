@@ -1,7 +1,6 @@
 package com.example.bas_d.simpledungeon;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.example.bas_d.simpledungeon.input.Inputs;
 import com.example.bas_d.simpledungeon.input.Pressed;
@@ -16,7 +15,6 @@ import com.example.bas_d.simpledungeon.services.ImageService;
 import com.example.bas_d.simpledungeon.views.GameCamera;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class CreatureManager {
 
@@ -313,5 +311,14 @@ public class CreatureManager {
 
     public void setGameEngine(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
+    }
+
+    public void setCreatures(ArrayList<Creature> creatures) {
+        this.creatures = creatures;
+        this.creatures.add(player);
+    }
+
+    public void addCreatures(ArrayList<Creature> creatures) {
+        this.creatures.addAll(creatures);
     }
 }

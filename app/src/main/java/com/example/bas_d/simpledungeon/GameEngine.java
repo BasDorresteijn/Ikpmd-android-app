@@ -3,6 +3,7 @@ package com.example.bas_d.simpledungeon;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.example.bas_d.simpledungeon.database.DatabaseHelper;
 import com.example.bas_d.simpledungeon.input.InputDetector;
@@ -40,7 +41,7 @@ public class GameEngine {
         pb.setColor(Color.BLUE);
         pb.setTextSize(48);
 
-        //test();
+//        test();
 
     }
 

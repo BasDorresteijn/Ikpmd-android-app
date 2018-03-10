@@ -13,8 +13,8 @@ public class DatabaseInfo {
     }
 
     public class CreaturesColumn {
+        public static final String MAPID = "mapid";
         public static final String NAME = "name";
-        public static final String HEALTH = "health";
         public static final String POSX = "posy";
         public static final String POSY = "posx";
     }

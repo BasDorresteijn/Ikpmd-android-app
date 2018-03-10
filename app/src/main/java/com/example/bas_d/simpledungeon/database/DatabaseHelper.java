@@ -11,7 +11,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static SQLiteDatabase mSQLDB;
     private static DatabaseHelper mInstance;
     public static final String dbName = "simpleDungeon.db";
-    public static final int dbVersion = 2;
+    public static final int dbVersion = 3;
 
     private DatabaseHelper(Context ctx) {
         super(ctx, dbName, null, dbVersion);
@@ -35,11 +35,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DatabaseInfo.MapColumn.TERRAINS + " TEXT," +
                 DatabaseInfo.MapColumn.ID + " INTEGER PRIMARY KEY AUTOINCREMENT);"
         );
+        db.execSQL("CREATE TABLE " + DatabaseInfo.SimpleDungeonTables.CREATURES + " (" +
+                DatabaseInfo.CreaturesColumn.NAME + " TEXT, " +
+                DatabaseInfo.CreaturesColumn.MAPID + " INTEGER," +
+                DatabaseInfo.CreaturesColumn.POSX + " INTEGER," +
+                DatabaseInfo.CreaturesColumn.POSY + " INTEGER);"
+        );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseInfo.SimpleDungeonTables.MAP);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseInfo.SimpleDungeonTables.CREATURES);
         onCreate(db);
     }
 

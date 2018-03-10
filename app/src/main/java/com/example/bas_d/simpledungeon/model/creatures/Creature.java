@@ -10,7 +10,8 @@ public abstract class Creature {
 
     private float speed = FixedValues.SPEED;
 
-    private int health = FixedValues.HEALTH;
+    private int maxHealth = FixedValues.HEALTH;
+    private int health;
 
     private Bitmap image;
     private float posX;
@@ -28,11 +29,13 @@ public abstract class Creature {
         this.posX = posX;
         this.posY = posY;
         this.image = ImageService.defaultImage;
+        this.health = maxHealth;
     }
 
     public Creature(float posX, float posY, float speed, int health, Bitmap resImage) {
         this.speed = speed;
-        this.health = health;
+        this.maxHealth = health;
+        this.health = maxHealth;
         this.posX = posX;
         this.posY = posY;
         this.image = resImage;
@@ -42,6 +45,7 @@ public abstract class Creature {
         this.posX = posX;
         this.posY = posY;
         this.image = resImage;
+        this.health = maxHealth;
     }
 
     public float getSpeed() {
@@ -111,5 +115,13 @@ public abstract class Creature {
 
     public void setAttack(int attack) {
         this.attack = attack;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 }

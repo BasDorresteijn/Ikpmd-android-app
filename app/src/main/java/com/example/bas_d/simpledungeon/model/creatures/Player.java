@@ -14,6 +14,10 @@ public class Player extends Creature{
     private final static Bitmap IMAGE = ImageService.playerImage;
     private Sword sword;
 
+    public Player() {
+        super(0,0, ImageService.playerImage);
+    }
+
     public Player(int posX, int posY) {
         super(posX, posY, SPEED, HEALTH, IMAGE);
         this.sword = new Sword();
