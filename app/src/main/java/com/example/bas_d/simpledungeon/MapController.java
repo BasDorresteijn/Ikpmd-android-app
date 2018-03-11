@@ -26,9 +26,11 @@ public class MapController {
     private GameCamera gameCamera;
     private CreatureManager creatureManager;
     private DatabaseHelper databaseHelper;
+    private GameEngine gameEngine;
 
     public MapController(GameEngine gameEngine) {
-        gameEngine.setMapController(this);
+        this.gameEngine = gameEngine;
+        this.gameEngine.setMapController(this);
         this.gameCamera = gameEngine.getGameCamera();
         this.creatureManager = gameEngine.getCreatureManager();
         this.databaseHelper = gameEngine.getDatabaseHelper();
@@ -100,13 +102,21 @@ public class MapController {
     }
 
     public void drawMap(Canvas canvas) {
-        int width = 0, height = 0;
-        for(ArrayList<Terrain> row : map.getMap()) {
-            for(Terrain terrain : row) {
+        int xStart = (int) Math.max(0, gameCamera.getxOffSet() / FixedValues.WIDTH);
+        int xEnd = (int) Math.min(map.getMaxX() / FixedValues.WIDTH, (gameCamera.getxOffSet() + gameEngine.getWidth()) / FixedValues.WIDTH + 1);
+        int yStart = (int) Math.max(0, gameCamera.getyOffSet() / FixedValues.HEIGHT);
+        int yEnd = (int) Math.min(map.getMaxY() / FixedValues.HEIGHT, (gameCamera.getyOffSet() + gameEngine.getHeight() - FixedValues.CONTROLSHEIGHT - 16) / FixedValues.HEIGHT + 1);
+
+
+        int width = xStart*FixedValues.WIDTH, height = yStart*FixedValues.HEIGHT;
+        for(int j = yStart; j < yEnd; j++) {
+            ArrayList<Terrain> row = map.getMap().get(j);
+            for(int i = xStart; i < xEnd; i++) {
+                Terrain terrain = row.get(i);
                 canvas.drawBitmap(terrain.getTerrainImage(), width - gameCamera.getxOffSet(), height - gameCamera.getyOffSet(), null);
                 width += FixedValues.WIDTH;
             }
-            width = 0;
+            width = xStart*FixedValues.WIDTH;
             height += FixedValues.HEIGHT;
         }
     }

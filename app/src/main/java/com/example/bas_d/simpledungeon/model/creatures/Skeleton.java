@@ -9,11 +9,11 @@ import com.example.bas_d.simpledungeon.services.ImageService;
 public class Skeleton extends Creature {
 
     public Skeleton() {
-        super(0,0, ImageService.skeletonImage);
+        super(0,0, ImageService.skeletonImage, 200);
     }
 
     public Skeleton(float posX, float posY) {
-        super(posX, posY, ImageService.skeletonImage);
+        super(posX, posY, ImageService.skeletonImage, 200);
     }
     @Override
     public Rect getBounds() {

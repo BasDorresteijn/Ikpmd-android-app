@@ -9,6 +9,7 @@ public class GameCamera {
     private float yOffSet = 0, xOffSet = 0;
     private int maxX, maxY;
     private GameEngine gameEngine;
+    private final int INGAMESTATSHEIGHT = FixedValues.STATSHEIGHT;
 
     public GameCamera(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
@@ -20,8 +21,8 @@ public class GameCamera {
         if(xOffSet < 0) {
             xOffSet = 0;
         }
-        if(yOffSet < 0) {
-            yOffSet = 0;
+        if(yOffSet < -INGAMESTATSHEIGHT) {
+            yOffSet = -INGAMESTATSHEIGHT;
         }
         if(xOffSet > maxX - gameEngine.getWidth()) {
             xOffSet = maxX - gameEngine.getWidth();
@@ -46,4 +47,5 @@ public class GameCamera {
     public void setMaxY(int maxY) {
         this.maxY = maxY;
     }
+
 }

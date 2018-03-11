@@ -13,13 +13,14 @@ public class Player extends Creature{
     private final static float SPEED = FixedValues.SPEED * 2;
     private final static Bitmap IMAGE = ImageService.playerImage;
     private Sword sword;
+    private int score = 0;
 
     public Player() {
-        super(0,0, ImageService.playerImage);
+        super(0,0, ImageService.playerImage, 0);
     }
 
     public Player(int posX, int posY) {
-        super(posX, posY, SPEED, HEALTH, IMAGE);
+        super(posX, posY, SPEED, HEALTH, IMAGE, 0);
         this.sword = new Sword();
     }
 
@@ -35,5 +36,13 @@ public class Player extends Creature{
 
     public void setSword(Sword sword) {
         this.sword = sword;
+    }
+
+    public void addPoints(int points) {
+        this.score += points;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

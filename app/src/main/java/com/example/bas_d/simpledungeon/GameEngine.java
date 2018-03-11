@@ -1,15 +1,15 @@
 package com.example.bas_d.simpledungeon;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.example.bas_d.simpledungeon.database.DatabaseHelper;
 import com.example.bas_d.simpledungeon.input.InputDetector;
 import com.example.bas_d.simpledungeon.model.creatures.Player;
-import com.example.bas_d.simpledungeon.model.creatures.Skeleton;
 import com.example.bas_d.simpledungeon.views.GameCamera;
+import com.example.bas_d.simpledungeon.views.IngameStats;
 
 public class GameEngine {
 
@@ -19,11 +19,14 @@ public class GameEngine {
     private CreatureManager creatureManager;
     private MapController mapController;
     private GameCamera gameCamera;
+    private IngameStats ingameStats;
     private int width, height;
     private RenderThread renderThread;
     private DatabaseHelper databaseHelper;
+    private Resources resources;
 
-    public GameEngine(CreatureManager creatureManager, DatabaseHelper databaseHelper) {
+    public GameEngine(CreatureManager creatureManager, DatabaseHelper databaseHelper, Resources resources) {
+        this.resources = resources;
         this.gameCamera = new GameCamera(this);
         this.creatureManager = creatureManager;
         this.creatureManager.setGameCamera(gameCamera);
@@ -32,6 +35,7 @@ public class GameEngine {
 
         creatureManager.setPlayer(new Player(150, 150));
         player = creatureManager.getPlayer();
+        ingameStats = new IngameStats(player, resources);
 
         pr = new Paint();
         pr.setColor(Color.RED);
@@ -40,29 +44,13 @@ public class GameEngine {
         pb = new Paint();
         pb.setColor(Color.BLUE);
         pb.setTextSize(48);
-
-//        test();
-
-    }
-
-    private void test() {
-        creatureManager.addCreature(new Skeleton(500, 700));
-        creatureManager.addCreature(new Skeleton(400, 400));
-        creatureManager.addCreature(new Skeleton(300, 200));
     }
 
     public void draw(Canvas canvas) {
         mapController.drawMap(canvas);
         creatureManager.draw(canvas);
         inputDetector.draw(canvas);
-        canvas.drawText("HEALTH: " + player.getHealth(), 300, 650, pr);
-        long now = System.currentTimeMillis();
-        long cooldown = (player.getSword().getLastUsed() + player.getSword().getCooldown() + player.getSword().getUseTime()) - now;
-        if(cooldown < 0) {
-            cooldown = 0;
-        }
-        canvas.drawText("COOLDOWN: " + cooldown, 300, 700, pb);
-
+        ingameStats.draw(canvas);
     }
 
     public void update() {
@@ -76,11 +64,13 @@ public class GameEngine {
     public void setHeight(int height) {
         this.height = height;
         this.inputDetector.setHeight(height);
+        this.ingameStats.setMaxHeight(height);
     }
 
     public void setWidth(int width) {
         this.width = width;
         this.inputDetector.setWidth(width);
+        this.ingameStats.setMaxWidth(width);
     }
 
     public void setInputDetector(InputDetector inputDetector) {
@@ -126,6 +116,10 @@ public class GameEngine {
 
     public DatabaseHelper getDatabaseHelper() {
         return databaseHelper;
+    }
+
+    public IngameStats getIngameStats() {
+        return ingameStats;
     }
 
 }

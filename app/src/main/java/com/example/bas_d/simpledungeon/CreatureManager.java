@@ -1,6 +1,8 @@
 package com.example.bas_d.simpledungeon;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.example.bas_d.simpledungeon.input.Inputs;
 import com.example.bas_d.simpledungeon.input.Pressed;
@@ -25,10 +27,15 @@ public class CreatureManager {
     private Pressed lastpressed = Pressed.Left;
     private GameCamera gameCamera;
     private GameEngine gameEngine;
+    private Paint pRed, pGreen;
 
     public CreatureManager() {
         this.creatures = new ArrayList<>();
         this.entities = new ArrayList<>();
+        pRed = new Paint();
+        pRed.setColor(Color.RED);
+        pGreen = new Paint(Color.GREEN);
+        pGreen.setColor(Color.GREEN);
     }
 
     public void addCreature(Creature creature) {
@@ -171,6 +178,15 @@ public class CreatureManager {
             canvas.drawBitmap(creature.getResImage(), creature.getPosX() - gameCamera.getxOffSet(), creature.getPosY() - gameCamera.getyOffSet(), null);
         }
         drawPlayersSword(canvas);
+        drawHealthBars(canvas);
+    }
+
+    private void drawHealthBars(Canvas canvas) {
+        for(Creature creature : this.getCreatures()) {
+            if(creature != player) {
+                canvas.drawRect(creature.getPosX() - gameCamera.getxOffSet(), creature.getPosY() - gameCamera.getyOffSet() - 8, creature.getPosX() + (creature.getResImage().getWidth() * creature.getHealth()/creature.getMaxHealth()) - gameCamera.getxOffSet(), creature.getPosY() - gameCamera.getyOffSet(), pRed);
+            }
+        }
     }
 
     private void drawPlayersSword(Canvas canvas) {
@@ -248,6 +264,7 @@ public class CreatureManager {
         for(Creature c : creatures) {
             if(c.getHealth() <= 0) {
                 deadCreatures.add(c);
+                player.addPoints(c.getPoints());
             }
         }
         creatures.removeAll(deadCreatures);

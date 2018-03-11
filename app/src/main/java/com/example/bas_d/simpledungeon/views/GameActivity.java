@@ -3,6 +3,7 @@ package com.example.bas_d.simpledungeon.views;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
+import android.view.Window;
 
 import com.example.bas_d.simpledungeon.CreatureManager;
 import com.example.bas_d.simpledungeon.GameEngine;
@@ -51,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
     private void startUp() {
         new ImageService(getResources());
         this.databaseHelper = DatabaseHelper.getHelper(this);
-        gameEngine = new GameEngine(new CreatureManager(), databaseHelper);
+        gameEngine = new GameEngine(new CreatureManager(), databaseHelper, getResources());
         setupCanvas(gameEngine);
     }
 

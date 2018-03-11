@@ -14,7 +14,7 @@ public class ImageService {
     public static Bitmap controlsImage, aImage;
     public static Bitmap basicSwordR, basicSwordL, basicSwordU, basicSwordD;
     public static Bitmap wall, grass, stairs;
-    public static Bitmap defaultImage;
+    public static Bitmap defaultImage, heart;
 
     private Resources resources;
 
@@ -65,6 +65,8 @@ public class ImageService {
     private void loadOthers() {
         defaultImage = BitmapFactory.decodeResource(resources, R.drawable.test);
         defaultImage = Bitmap.createScaledBitmap(defaultImage, FixedValues.WIDTH, FixedValues.HEIGHT, true);
+        heart = BitmapFactory.decodeResource(resources, R.drawable.heart);
+        heart = Bitmap.createScaledBitmap(heart, FixedValues.STATSHEIGHT, FixedValues.STATSHEIGHT, true);
     }
 
 }
