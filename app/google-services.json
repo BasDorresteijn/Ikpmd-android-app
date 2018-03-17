@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "324307670981",
+    "firebase_url": "https://simpledungeon-648e3.firebaseio.com",
+    "project_id": "simpledungeon-648e3",
+    "storage_bucket": "simpledungeon-648e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324307670981:android:50bded446fdc2757",
+        "android_client_info": {
+          "package_name": "com.example.bas_d.simpledungeon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324307670981-i51iajv117v1l5cfe6htn2beqrmhrreu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bas_d.simpledungeon",
+            "certificate_hash": "32e7c3c17862f34e639ac851b0cf950e328336fc"
+          }
+        },
+        {
+          "client_id": "324307670981-kr352slq8t6u4cgvgtsnp5dsdkbdrjq0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkSiT0bKNytWM2RJXwhOfkO5SWsuq3tC0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324307670981-kr352slq8t6u4cgvgtsnp5dsdkbdrjq0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

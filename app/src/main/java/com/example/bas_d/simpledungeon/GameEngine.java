@@ -1,15 +1,19 @@
 package com.example.bas_d.simpledungeon;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Bundle;
 
 import com.example.bas_d.simpledungeon.database.DatabaseHelper;
 import com.example.bas_d.simpledungeon.input.InputDetector;
 import com.example.bas_d.simpledungeon.model.creatures.Player;
 import com.example.bas_d.simpledungeon.views.GameCamera;
 import com.example.bas_d.simpledungeon.views.IngameStats;
+import com.example.bas_d.simpledungeon.views.activity.GameActivity;
+import com.example.bas_d.simpledungeon.views.activity.ScoreActivity;
 
 public class GameEngine {
 
@@ -24,8 +28,10 @@ public class GameEngine {
     private RenderThread renderThread;
     private DatabaseHelper databaseHelper;
     private Resources resources;
+    private GameActivity gameActivity;
 
-    public GameEngine(CreatureManager creatureManager, DatabaseHelper databaseHelper, Resources resources) {
+    public GameEngine(CreatureManager creatureManager, DatabaseHelper databaseHelper, Resources resources, GameActivity gameActivity) {
+        this.gameActivity = gameActivity;
         this.resources = resources;
         this.gameCamera = new GameCamera(this);
         this.creatureManager = creatureManager;
@@ -122,4 +128,12 @@ public class GameEngine {
         return ingameStats;
     }
 
+    public void showScores() {
+        Intent intent = new Intent(this.gameActivity, ScoreActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("score", player.getScore() + player.getHealth() * 20);
+        intent.putExtras(bundle);
+        this.gameActivity.startActivity(intent);
+        this.gameActivity.finish();
+    }
 }

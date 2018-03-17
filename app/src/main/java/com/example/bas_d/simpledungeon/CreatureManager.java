@@ -265,6 +265,10 @@ public class CreatureManager {
             if(c.getHealth() <= 0) {
                 deadCreatures.add(c);
                 player.addPoints(c.getPoints());
+                if(c == player) {
+                    gameEngine.stop();
+                    gameEngine.showScores();
+                }
             }
         }
         creatures.removeAll(deadCreatures);

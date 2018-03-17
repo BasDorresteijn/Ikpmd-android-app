@@ -56,7 +56,8 @@ public class MapController {
         if(rs.moveToFirst()) {
             return  rs.getString(rs.getColumnIndex(DatabaseInfo.MapColumn.TERRAINS));
         } else {
-            //VICTORY
+            gameEngine.showScores();
+            gameEngine.stop();
             return "";
         }
     }
@@ -152,12 +153,33 @@ public class MapController {
                 "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
                 "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
                 "WA WA WA WA WA WA WA WA WA WA WA WA WA WA nl");
+
+        insertMap("WA WA WA WA WA WA WA WA WA WA WA WA WA WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl " +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR WA WA WA WA GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR WA GR GR GR GR GR WA nl" +
+                "WA GR GR ST GR GR GR WA GR WA WA GR GR WA nl" +
+                "WA GR GR GR GR GR GR WA GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR WA GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR GR GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR WA GR GR GR GR GR WA nl" +
+                "WA GR GR GR GR GR GR WA GR GR GR GR GR WA nl" +
+                "WA WA WA WA WA WA WA WA WA WA WA WA WA WA nl");
     }
 
     private void insertCreatures() {
         insertCreature("Skeleton", 1, 500, 600);
         insertCreature("Skeleton", 1, 700, 900);
         insertCreature("Skeleton", 1, 300, 1000);
+        insertCreature("Skeleton", 2, 400, 300);
+        insertCreature("Skeleton", 2, 700, 900);
+        insertCreature("Skeleton", 2, 300, 1000);
+        insertCreature("Skeleton", 2, 500, 600);
+        insertCreature("Skeleton", 2, 100, 900);
+        insertCreature("Skeleton", 2, 600, 100);
     }
 
 }

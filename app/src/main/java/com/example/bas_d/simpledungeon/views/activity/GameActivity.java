@@ -1,4 +1,4 @@
-package com.example.bas_d.simpledungeon.views;
+package com.example.bas_d.simpledungeon.views.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import com.example.bas_d.simpledungeon.database.DatabaseHelper;
 import com.example.bas_d.simpledungeon.input.InputDetector;
 import com.example.bas_d.simpledungeon.model.terrain.Map;
 import com.example.bas_d.simpledungeon.services.ImageService;
+import com.example.bas_d.simpledungeon.views.DrawingCanvas;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -37,12 +38,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        gameEngine.stop();
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         gameEngine.stop();
@@ -52,7 +47,7 @@ public class GameActivity extends AppCompatActivity {
     private void startUp() {
         new ImageService(getResources());
         this.databaseHelper = DatabaseHelper.getHelper(this);
-        gameEngine = new GameEngine(new CreatureManager(), databaseHelper, getResources());
+        gameEngine = new GameEngine(new CreatureManager(), databaseHelper, getResources(), this);
         setupCanvas(gameEngine);
     }
 

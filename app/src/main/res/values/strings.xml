@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Simple Dungeon</string>
     <string name="cooldown">cooldown</string>
+    <string name="victory">"You've beaten the game!"</string>
+    <string name="score">score: </string>
 </resources>

@@ -5,6 +5,6 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bas_d.simpledungeon.views.GameActivity">
+    tools:context="com.example.bas_d.simpledungeon.views.activity.GameActivity">
 
 </android.support.constraint.ConstraintLayout>
