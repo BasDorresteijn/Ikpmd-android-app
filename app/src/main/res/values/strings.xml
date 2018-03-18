@@ -2,5 +2,12 @@
     <string name="app_name">Simple Dungeon</string>
     <string name="cooldown">cooldown</string>
     <string name="victory">"You've beaten the game!"</string>
+    <string name="defeat">"You've died idiot!"</string>
     <string name="score">score: </string>
+    <string name="gameviewname">Game</string>
+    <string name="scoreviewname">Score</string>
+    <string name="statsviewname">Stats</string>
+    <string name="name">Name</string>
+    <string name="submit">Submit</string>
+    <string name="succes">Succes</string>
 </resources>

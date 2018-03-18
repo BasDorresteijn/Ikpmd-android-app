@@ -19,7 +19,6 @@ public class GameEngine {
 
     private InputDetector inputDetector;
     private Player player;
-    private Paint pr, pb;
     private CreatureManager creatureManager;
     private MapController mapController;
     private GameCamera gameCamera;
@@ -29,6 +28,7 @@ public class GameEngine {
     private DatabaseHelper databaseHelper;
     private Resources resources;
     private GameActivity gameActivity;
+    private ScoreCalc scoreCalc;
 
     public GameEngine(CreatureManager creatureManager, DatabaseHelper databaseHelper, Resources resources, GameActivity gameActivity) {
         this.gameActivity = gameActivity;
@@ -38,18 +38,11 @@ public class GameEngine {
         this.creatureManager.setGameCamera(gameCamera);
         this.creatureManager.setGameEngine(this);
         this.databaseHelper = databaseHelper;
+        this.scoreCalc = new ScoreCalc();
 
         creatureManager.setPlayer(new Player(150, 150));
         player = creatureManager.getPlayer();
         ingameStats = new IngameStats(player, resources);
-
-        pr = new Paint();
-        pr.setColor(Color.RED);
-        pr.setTextSize(48);
-
-        pb = new Paint();
-        pb.setColor(Color.BLUE);
-        pb.setTextSize(48);
     }
 
     public void draw(Canvas canvas) {
@@ -131,9 +124,22 @@ public class GameEngine {
     public void showScores() {
         Intent intent = new Intent(this.gameActivity, ScoreActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("score", player.getScore() + player.getHealth() * 20);
+        bundle.putInt("score", scoreCalc.calcScore(player));
+        if(player.getHealth() <= 0) {
+            bundle.putBoolean("died", true);
+        } else {
+            bundle.putBoolean("died", false);
+        }
         intent.putExtras(bundle);
         this.gameActivity.startActivity(intent);
         this.gameActivity.finish();
+    }
+
+    public Resources getResources() {
+        return resources;
+    }
+
+    public void setResources(Resources resources) {
+        this.resources = resources;
     }
 }
