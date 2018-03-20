@@ -18,6 +18,8 @@ public class FixedValues {
     public final static int STATSHEIGHT = 60;
     public final static int POINTS = 100;
 
-//    public final static int IMAGE = R.drawable.ic_launcher_background;
+    //SHARED PREFERENCES FILES
+    public final static String SOUNDSETTINGS = "soundSettings";
+
 
 }

@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".views.activity.ScoreActivity" />
         <activity android:name=".views.activity.ScoreListActivity" />
-        <activity android:name=".views.activity.StatsActivity"></activity>
+        <activity android:name=".views.activity.StatsActivity" />
+        <activity android:name=".views.activity.SettingsActivity"></activity>
     </application>
 
 </manifest>

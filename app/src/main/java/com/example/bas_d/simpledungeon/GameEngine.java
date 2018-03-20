@@ -29,20 +29,24 @@ public class GameEngine {
     private Resources resources;
     private GameActivity gameActivity;
     private ScoreCalc scoreCalc;
+    private SoundEngine soundEngine;
 
     public GameEngine(CreatureManager creatureManager, DatabaseHelper databaseHelper, Resources resources, GameActivity gameActivity) {
         this.gameActivity = gameActivity;
         this.resources = resources;
         this.gameCamera = new GameCamera(this);
+        this.soundEngine = new SoundEngine(gameActivity, resources, false);
         this.creatureManager = creatureManager;
         this.creatureManager.setGameCamera(gameCamera);
         this.creatureManager.setGameEngine(this);
+        this.creatureManager.setSoundEngine(soundEngine);
         this.databaseHelper = databaseHelper;
         this.scoreCalc = new ScoreCalc();
 
         creatureManager.setPlayer(new Player(150, 150));
         player = creatureManager.getPlayer();
         ingameStats = new IngameStats(player, resources);
+        soundEngine.playBackgroundMusic();
     }
 
     public void draw(Canvas canvas) {
@@ -101,6 +105,7 @@ public class GameEngine {
         if(renderThread != null) {
             renderThread.pause();
         }
+        soundEngine.stopSounds();
     }
 
     public void start() {
@@ -122,6 +127,7 @@ public class GameEngine {
     }
 
     public void showScores() {
+        soundEngine.stopSounds();
         Intent intent = new Intent(this.gameActivity, ScoreActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("score", scoreCalc.calcScore(player));

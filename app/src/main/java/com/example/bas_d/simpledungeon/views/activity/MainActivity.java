@@ -10,7 +10,7 @@ import com.example.bas_d.simpledungeon.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button gameButton, scoreButton, statsButton;
+    private Button gameButton, scoreButton, statsButton, settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, StatsActivity.class));
+            }
+        });
+        settingsButton = findViewById(R.id.settings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             }
         });
     }

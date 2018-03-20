@@ -27,15 +27,14 @@ public class CreatureManager {
     private Pressed lastpressed = Pressed.Left;
     private GameCamera gameCamera;
     private GameEngine gameEngine;
-    private Paint pRed, pGreen;
+    private Paint pRed;
+    private SoundEngine soundEngine;
 
     public CreatureManager() {
         this.creatures = new ArrayList<>();
         this.entities = new ArrayList<>();
         pRed = new Paint();
         pRed.setColor(Color.RED);
-        pGreen = new Paint(Color.GREEN);
-        pGreen.setColor(Color.GREEN);
     }
 
     public void addCreature(Creature creature) {
@@ -279,6 +278,7 @@ public class CreatureManager {
         if(now > defending.getImmumeSince() + defending.getImmumeTime()) {
             defending.setHealth(defending.getHealth() - attacking.getAttack());
             defending.setImmumeSince(now);
+            soundEngine.playPlayerHurt();
         }
     }
 
@@ -341,5 +341,9 @@ public class CreatureManager {
 
     public void addCreatures(ArrayList<Creature> creatures) {
         this.creatures.addAll(creatures);
+    }
+
+    public void setSoundEngine(SoundEngine soundEngine) {
+        this.soundEngine = soundEngine;
     }
 }

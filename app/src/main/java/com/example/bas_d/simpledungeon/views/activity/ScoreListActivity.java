@@ -20,11 +20,13 @@ import java.util.Comparator;
 public class ScoreListActivity extends AppCompatActivity {
 
     private FirebaseDatabase database;
+    private ArrayList<Score> scores = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_list);
+        setupfirebase();
     }
 
     private void setupfirebase() {
@@ -55,6 +57,7 @@ public class ScoreListActivity extends AppCompatActivity {
                 for (Score score : scores) {
                     Log.d("SimpleDungeon", String.valueOf(score.getScore()));
                 }
+                setScores(scores);
             }
 
             @Override
@@ -63,5 +66,9 @@ public class ScoreListActivity extends AppCompatActivity {
                 Log.w("SimpleDungeon", "Failed to read value.", error.toException());
             }
         });
+    }
+
+    public void setScores(ArrayList<Score> scores) {
+        this.scores = scores;
     }
 }
