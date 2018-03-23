@@ -27,10 +27,12 @@ public class MapController {
     private CreatureManager creatureManager;
     private DatabaseHelper databaseHelper;
     private GameEngine gameEngine;
+    private SoundEngine soundEngine;
 
     public MapController(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
         this.gameEngine.setMapController(this);
+        this.soundEngine = this.gameEngine.getSoundEngine();
         this.gameCamera = gameEngine.getGameCamera();
         this.creatureManager = gameEngine.getCreatureManager();
         this.databaseHelper = gameEngine.getDatabaseHelper();
@@ -135,6 +137,7 @@ public class MapController {
     public void loadNewMap() {
         map = new Map(getMap());
         creatureManager.setCreatures(getCreatures());
+        soundEngine.resetSounds(false);
         mapID += 1;
     }
 

@@ -20,6 +20,7 @@ public class FixedValues {
 
     //SHARED PREFERENCES FILES
     public final static String SOUNDSETTINGS = "soundSettings";
+    public final static String DAMAGE = "damageData";
 
 
 }

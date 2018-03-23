@@ -273,12 +273,13 @@ public class CreatureManager {
         creatures.removeAll(deadCreatures);
     }
 
-    private void doCombat(Creature attacking, Creature defending) {
+    private void doCombat(Creature attacking, Player defending) {
         long now = System.currentTimeMillis();
         if(now > defending.getImmumeSince() + defending.getImmumeTime()) {
             defending.setHealth(defending.getHealth() - attacking.getAttack());
             defending.setImmumeSince(now);
             soundEngine.playPlayerHurt();
+            player.addDamageTaken(attacking.getAttack());
         }
     }
 
@@ -287,6 +288,7 @@ public class CreatureManager {
         if(now > defending.getImmumeSince() + defending.getImmumeTime()) {
             defending.setHealth(defending.getHealth() - attacking.getSword().getAttack());
             defending.setImmumeSince(now);
+            player.addDamageDealt(attacking.getSword().getAttack());
         }
     }
 

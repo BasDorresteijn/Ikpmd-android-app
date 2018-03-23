@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.example.bas_d.simpledungeon.model.FixedValues;
 
@@ -37,6 +38,7 @@ public class SoundEngine {
     public void playPlayerHurt() {
         if(!hurt.isPlaying()) {
             hurt.start();
+            Log.d("SimpleDungeon", "playing hurt");
         }
     }
 
@@ -44,6 +46,7 @@ public class SoundEngine {
         backgroundMusic.setLooping(true);
         if(!backgroundMusic.isPlaying()) {
             backgroundMusic.start();
+            Log.d("SimpleDungeon", "playing backgroundmusic");
         }
     }
 
@@ -63,6 +66,7 @@ public class SoundEngine {
         }
         allSounds.addAll(sounds);
         allSounds.addAll(music);
+        backgroundMusic.start();
     }
 
     private float getVolume(int currentVolume) {

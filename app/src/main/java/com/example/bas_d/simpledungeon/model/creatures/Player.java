@@ -14,6 +14,8 @@ public class Player extends Creature{
     private final static Bitmap IMAGE = ImageService.playerImage;
     private Sword sword;
     private int score = 0;
+    private int damageDealt = 0;
+    private int damageTaken = 0;
 
     public Player() {
         super(0,0, ImageService.playerImage, 0);
@@ -44,5 +46,21 @@ public class Player extends Creature{
 
     public int getScore() {
         return score;
+    }
+
+    public int getDamageDealt() {
+        return damageDealt;
+    }
+
+    public void addDamageDealt(int damageDealt) {
+        this.damageDealt += damageDealt;
+    }
+
+    public int getDamageTaken() {
+        return damageTaken;
+    }
+
+    public void addDamageTaken(int damageTaken) {
+        this.damageTaken += damageTaken;
     }
 }

@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.bas_d.simpledungeon.views.activity.ScoreListActivity">
 
+    <fragment
+        android:id="@+id/headlines_fragment"
+        android:name="com.example.bas_d.simpledungeon.views.fragment.ScoreFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0" />
+
 </android.support.constraint.ConstraintLayout>

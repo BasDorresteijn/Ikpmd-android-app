@@ -6,7 +6,9 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.example.bas_d.simpledungeon.R;
+import com.example.bas_d.simpledungeon.dummy.DummyContent;
 import com.example.bas_d.simpledungeon.model.Score;
+import com.example.bas_d.simpledungeon.views.fragment.ScoreFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,58 +19,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class ScoreListActivity extends AppCompatActivity {
-
-    private FirebaseDatabase database;
-    private ArrayList<Score> scores = new ArrayList<>();
+public class ScoreListActivity extends AppCompatActivity implements ScoreFragment.OnListFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_list);
-        setupfirebase();
     }
 
-    private void setupfirebase() {
-        // Write a message to the database
-        database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
+    @Override
+    public void onListFragmentInteraction(Score item) {
 
-        //myRef.push().setValue(new Score("henk", 100));
-
-        // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Score> scores = new ArrayList<>();
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    scores.add(data.getValue(Score.class));
-                }
-                Collections.sort(scores, new Comparator<Score>() {
-                    @Override
-                    public int compare(Score s1, Score s2) {
-                        if (s1.getScore() > s2.getScore()) {
-                            return 1;
-                        } else {
-                            return -1;
-                        }
-                    }
-                });
-                for (Score score : scores) {
-                    Log.d("SimpleDungeon", String.valueOf(score.getScore()));
-                }
-                setScores(scores);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("SimpleDungeon", "Failed to read value.", error.toException());
-            }
-        });
-    }
-
-    public void setScores(ArrayList<Score> scores) {
-        this.scores = scores;
     }
 }

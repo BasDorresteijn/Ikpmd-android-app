@@ -41,12 +41,11 @@ public class GameEngine {
         this.creatureManager.setGameEngine(this);
         this.creatureManager.setSoundEngine(soundEngine);
         this.databaseHelper = databaseHelper;
-        this.scoreCalc = new ScoreCalc();
+        this.scoreCalc = new ScoreCalc(gameActivity);
 
         creatureManager.setPlayer(new Player(150, 150));
         player = creatureManager.getPlayer();
         ingameStats = new IngameStats(player, resources);
-        soundEngine.playBackgroundMusic();
     }
 
     public void draw(Canvas canvas) {
@@ -131,6 +130,7 @@ public class GameEngine {
         Intent intent = new Intent(this.gameActivity, ScoreActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("score", scoreCalc.calcScore(player));
+        scoreCalc.saveDamageData(player);
         if(player.getHealth() <= 0) {
             bundle.putBoolean("died", true);
         } else {
@@ -147,5 +147,9 @@ public class GameEngine {
 
     public void setResources(Resources resources) {
         this.resources = resources;
+    }
+
+    public SoundEngine getSoundEngine() {
+        return soundEngine;
     }
 }
