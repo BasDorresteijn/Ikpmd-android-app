@@ -27,14 +27,14 @@ public class CreatureManager {
     private Pressed lastpressed = Pressed.Left;
     private GameCamera gameCamera;
     private GameEngine gameEngine;
-    private Paint pRed;
+    private Paint pHealthBar;
     private SoundEngine soundEngine;
 
     public CreatureManager() {
         this.creatures = new ArrayList<>();
         this.entities = new ArrayList<>();
-        pRed = new Paint();
-        pRed.setColor(Color.RED);
+        pHealthBar = new Paint();
+        pHealthBar.setColor(Color.RED);
     }
 
     public void addCreature(Creature creature) {
@@ -183,7 +183,7 @@ public class CreatureManager {
     private void drawHealthBars(Canvas canvas) {
         for(Creature creature : this.getCreatures()) {
             if(creature != player) {
-                canvas.drawRect(creature.getPosX() - gameCamera.getxOffSet(), creature.getPosY() - gameCamera.getyOffSet() - 8, creature.getPosX() + (creature.getResImage().getWidth() * creature.getHealth()/creature.getMaxHealth()) - gameCamera.getxOffSet(), creature.getPosY() - gameCamera.getyOffSet(), pRed);
+                canvas.drawRect(creature.getPosX() - gameCamera.getxOffSet(), creature.getPosY() - gameCamera.getyOffSet() - 8, creature.getPosX() + (creature.getResImage().getWidth() * creature.getHealth()/creature.getMaxHealth()) - gameCamera.getxOffSet(), creature.getPosY() - gameCamera.getyOffSet(), pHealthBar);
             }
         }
     }
@@ -191,19 +191,19 @@ public class CreatureManager {
     private void drawPlayersSword(Canvas canvas) {
         long now = System.currentTimeMillis();
         if (now < player.getSword().getLastUsed() + player.getSword().getUseTime()) {
-            if (lastpressed == Pressed.Right) {
+            if (player.getSword().getLastPressed() == Pressed.Right) {
                 player.getSword().setResImage(ImageService.basicSwordR);
                 canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() + FixedValues.WIDTH - gameCamera.getxOffSet(), player.getPosY() - gameCamera.getyOffSet(), null);
             }
-            if (lastpressed == Pressed.Left) {
+            if (player.getSword().getLastPressed() == Pressed.Left) {
                 player.getSword().setResImage(ImageService.basicSwordL);
                 canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() - FixedValues.WIDTH - gameCamera.getxOffSet(), player.getPosY()  - gameCamera.getyOffSet(), null);
             }
-            if (lastpressed == Pressed.Up) {
+            if (player.getSword().getLastPressed() == Pressed.Up) {
                 player.getSword().setResImage(ImageService.basicSwordU);
                 canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() - gameCamera.getxOffSet(), player.getPosY() - FixedValues.HEIGHT  - gameCamera.getyOffSet(), null);
             }
-            if (lastpressed == Pressed.Down) {
+            if (player.getSword().getLastPressed() == Pressed.Down) {
                 player.getSword().setResImage(ImageService.basicSwordD);
                 canvas.drawBitmap(player.getSword().getResImage(), player.getPosX() - gameCamera.getxOffSet(), player.getPosY() + FixedValues.HEIGHT  - gameCamera.getyOffSet(), null);
             }
@@ -216,10 +216,11 @@ public class CreatureManager {
         if(Inputs.a) {
             if(now > player.getSword().getLastUsed() + player.getSword().getCooldown() + player.getSword().getUseTime()) {
                 player.getSword().setLastUsed(now);
+                player.getSword().setLastPressed(lastpressed);
             }
         }
         if(now < player.getSword().getLastUsed() + player.getSword().getUseTime()) {
-            if (lastpressed == Pressed.Right) {
+            if (player.getSword().getLastPressed() == Pressed.Right) {
                 player.setResImage(ImageService.playerAttackingR);
                 for (Creature c : creatures) {
                     if (player.getSword().getXBounds((int) player.getPosX() + FixedValues.WIDTH, (int) player.getPosY()).intersect(c.getBounds())) {
@@ -229,7 +230,7 @@ public class CreatureManager {
                     }
                 }
             }
-            if (lastpressed == Pressed.Left) {
+            if (player.getSword().getLastPressed() == Pressed.Left) {
                 for (Creature c : creatures) {
                     if (player.getSword().getXBounds((int) player.getPosX() - FixedValues.WIDTH, (int) player.getPosY()).intersect(c.getBounds())) {
                         if (!player.equals(c)) {
@@ -238,7 +239,7 @@ public class CreatureManager {
                     }
                 }
             }
-            if (lastpressed == Pressed.Up) {
+            if (player.getSword().getLastPressed() == Pressed.Up) {
                 for (Creature c : creatures) {
                     if (player.getSword().getYBounds((int) player.getPosX(), (int) player.getPosY() - FixedValues.HEIGHT).intersect(c.getBounds())) {
                         if (!player.equals(c)) {
@@ -247,7 +248,7 @@ public class CreatureManager {
                     }
                 }
             }
-            if (lastpressed == Pressed.Down) {
+            if (player.getSword().getLastPressed() == Pressed.Down) {
                 for (Creature c : creatures) {
                     if (player.getSword().getYBounds((int) player.getPosX(), (int) player.getPosY() + FixedValues.HEIGHT).intersect(c.getBounds())) {
                         if (!player.equals(c)) {

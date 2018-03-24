@@ -138,6 +138,7 @@ public class MapController {
         map = new Map(getMap());
         creatureManager.setCreatures(getCreatures());
         soundEngine.resetSounds(false);
+        soundEngine.playBackgroundMusic();
         mapID += 1;
     }
 

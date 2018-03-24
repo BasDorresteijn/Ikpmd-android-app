@@ -2,6 +2,7 @@ package com.example.bas_d.simpledungeon.model.entities;
 
 import android.graphics.Rect;
 
+import com.example.bas_d.simpledungeon.input.Pressed;
 import com.example.bas_d.simpledungeon.model.FixedValues;
 import com.example.bas_d.simpledungeon.services.ImageService;
 
@@ -11,6 +12,7 @@ public class Sword extends Entity{
     private long cooldown = 1200;
     private long useTime = 600;
     private long lastUsed = 0;
+    private Pressed lastPressed = Pressed.Left;
 
     public Sword() {
         super(ImageService.basicSwordR);
@@ -56,5 +58,13 @@ public class Sword extends Entity{
 
     public void setLastUsed(long lastUsed) {
         this.lastUsed = lastUsed;
+    }
+
+    public Pressed getLastPressed() {
+        return lastPressed;
+    }
+
+    public void setLastPressed(Pressed lastPressed) {
+        this.lastPressed = lastPressed;
     }
 }
