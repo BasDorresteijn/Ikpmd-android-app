@@ -59,7 +59,7 @@ public class IngameStats {
         }
         double procent = cooldown/maxCooldown;
         canvas.drawRect(maxWidth/3*2, STATSHEIGHT/2, maxWidth, STATSHEIGHT - 4, pReady);
-        canvas.drawRect( maxWidth/3*2 + (float) ((maxWidth/3*2) * (1 - procent)), STATSHEIGHT/2, maxWidth/3*2, STATSHEIGHT - 3, pCooldown);
+        canvas.drawRect( maxWidth/3*2 + (float) ((maxWidth/3) * (1 - procent)), STATSHEIGHT/2, maxWidth/3*2, STATSHEIGHT - 3, pCooldown);
         canvas.drawText(resources.getString(R.string.cooldown), maxWidth/3*2, STATSHEIGHT/2, pWhiteSmall);
     }
 
