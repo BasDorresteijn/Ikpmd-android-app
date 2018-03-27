@@ -15,4 +15,5 @@
     <string name="sounds">Sound</string>
     <string name="chartdescription">Damage dealt vs damage received</string>
     <string name="damage">damage</string>
+    <string name="nointernet">No internet connection available, please connect to internet</string>
 </resources>
