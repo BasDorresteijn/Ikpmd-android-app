@@ -3,8 +3,11 @@ package com.example.bas_d.simpledungeon.views.activity;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.bas_d.simpledungeon.R;
 import com.example.bas_d.simpledungeon.model.FixedValues;
@@ -27,6 +30,27 @@ public class StatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stats);
 
         setUpchart();
+        setUpbutton();
+    }
+
+    private void setUpbutton() {
+        Button resetData = findViewById(R.id.resetdata);
+        resetData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetPreferences();
+                Snackbar.make(view, R.string.statsreset, Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void resetPreferences() {
+        SharedPreferences stats = getSharedPreferences(FixedValues.DAMAGE, 0);
+        SharedPreferences.Editor editor = stats.edit();
+        editor.putInt(damageTaken, 0);
+        editor.putInt(damageDealt, 0);
+        editor.commit();
+        getData();
     }
 
     private void setUpchart() {
@@ -56,8 +80,8 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     private void readPreferences() {
-        SharedPreferences damage = getSharedPreferences(FixedValues.DAMAGE, 0);
-        taken = damage.getInt(damageTaken, 0);
-        dealt = damage.getInt(damageDealt, 0);
+        SharedPreferences stats = getSharedPreferences(FixedValues.DAMAGE, 0);
+        taken = stats.getInt(damageTaken, 0);
+        dealt = stats.getInt(damageDealt, 0);
     }
 }
