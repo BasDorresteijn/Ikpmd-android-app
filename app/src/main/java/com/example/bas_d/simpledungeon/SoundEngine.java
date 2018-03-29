@@ -66,6 +66,7 @@ public class SoundEngine {
         }
         allSounds.addAll(sounds);
         allSounds.addAll(music);
+        resetVolumes();
     }
 
     private float getVolume(int currentVolume) {
