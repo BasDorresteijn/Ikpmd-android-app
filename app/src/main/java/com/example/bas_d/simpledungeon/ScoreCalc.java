@@ -46,7 +46,7 @@ public class ScoreCalc {
         SharedPreferences damageData = gameActivity.getSharedPreferences(FixedValues.DAMAGE, 0);
         SharedPreferences.Editor editor = damageData.edit();
         int oldDealt = damageData.getInt(damageDealt, 0);
-        int oldTaken = damageData.getInt(damageDealt, 0);
+        int oldTaken = damageData.getInt(damageTaken, 0);
         editor.putInt(damageDealt, player.getDamageDealt() + oldDealt);
         editor.putInt(damageTaken, player.getDamageTaken() + oldTaken);
         editor.apply();
