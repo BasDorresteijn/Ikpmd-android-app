@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -85,6 +87,7 @@ public class MyScoreRecyclerViewAdapter extends RecyclerView.Adapter<MyScoreRecy
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getName());
         holder.mContentView.setText(String.valueOf(mValues.get(position).getScore()));
+        holder.mPlaceView.setText(String.valueOf(position + 1));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +110,7 @@ public class MyScoreRecyclerViewAdapter extends RecyclerView.Adapter<MyScoreRecy
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mPlaceView;
         public Score mItem;
 
         public ViewHolder(View view) {
@@ -114,6 +118,7 @@ public class MyScoreRecyclerViewAdapter extends RecyclerView.Adapter<MyScoreRecy
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
+            mPlaceView = (TextView) view.findViewById(R.id.place);
         }
 
         @Override
