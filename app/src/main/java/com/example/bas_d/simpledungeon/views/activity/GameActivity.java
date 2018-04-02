@@ -41,7 +41,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         gameEngine.stop();
-        //SAVING DATA
+        //todo SAVING DATA
     }
 
     private void startUp() {
